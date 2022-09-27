@@ -1,30 +1,29 @@
-import type { HardhatUserConfig, NetworkUserConfig } from "hardhat/types";
-import "@nomiclabs/hardhat-ethers";
-import "@nomiclabs/hardhat-web3";
-import "@nomiclabs/hardhat-truffle5";
-import "hardhat-abi-exporter";
-import "hardhat-contract-sizer";
-import "solidity-coverage";
-import "dotenv/config";
+/**
+ * @type import('hardhat/config').HardhatUserConfig
+ */
 
-const bscTestnet: NetworkUserConfig = {
-  url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
-  chainId: 97,
-  accounts: [process.env.KEY_TESTNET!],
-};
+require ("@nomiclabs/hardhat-ethers");
+require ("@nomiclabs/hardhat-web3");
+require ("@nomiclabs/hardhat-waffle");
+require ("@nomiclabs/hardhat-truffle5");
+require ("hardhat-abi-exporter");
+require ("hardhat-contract-sizer");
+require ("solidity-coverage");
+require ("dotenv/config");
 
-const bscMainnet: NetworkUserConfig = {
-  url: "https://bsc-dataseed.binance.org/",
-  chainId: 56,
-  accounts: [process.env.KEY_MAINNET!],
-};
+const { PrivateKey } = require('./secret.json');
 
-const config: HardhatUserConfig = {
-  defaultNetwork: "hardhat",
+module.exports = {
+  defaultNetwork: 'testnet',
+
   networks: {
-    hardhat: {},
-    // testnet: bscTestnet,
-    // mainnet: bscMainnet,
+     hardhat: {
+     },
+     testnet: {
+        url: 'https://rpc.test.btcs.network',
+        accounts: [PrivateKey],
+        chainId: 1115,
+     }
   },
   solidity: {
     compilers: [
@@ -78,5 +77,3 @@ const config: HardhatUserConfig = {
     flat: false,
   },
 };
-
-export default config;
