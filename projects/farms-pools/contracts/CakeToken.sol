@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.6.12;
 
-import "bsc-library/contracts/BEP20.sol";
+import "./contracts/BEP20.sol";
 
-// CakeToken with Governance.
-contract CakeToken is BEP20("PancakeSwap Token", "Cake") {
+// SHDWToken with Governance.
+contract ShadowToken is BEP20("ShadowSwap Token", "Shdw") {
     /// @dev Creates `_amount` token to `_to`. Must only be called by the owner (MasterChef).
     function mint(address _to, uint256 _amount) public onlyOwner {
         _mint(_to, _amount);
@@ -91,9 +91,9 @@ contract CakeToken is BEP20("PancakeSwap Token", "Cake") {
         bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
 
         address signatory = ecrecover(digest, v, r, s);
-        require(signatory != address(0), "CAKE::delegateBySig: invalid signature");
-        require(nonce == nonces[signatory]++, "CAKE::delegateBySig: invalid nonce");
-        require(now <= expiry, "CAKE::delegateBySig: signature expired");
+        require(signatory != address(0), "SHDW::delegateBySig: invalid signature");
+        require(nonce == nonces[signatory]++, "SHDW::delegateBySig: invalid nonce");
+        require(now <= expiry, "SHDW::delegateBySig: signature expired");
         return _delegate(signatory, delegatee);
     }
 
@@ -115,7 +115,7 @@ contract CakeToken is BEP20("PancakeSwap Token", "Cake") {
      * @return The number of votes the account had as of the given block
      */
     function getPriorVotes(address account, uint256 blockNumber) external view returns (uint256) {
-        require(blockNumber < block.number, "CAKE::getPriorVotes: not yet determined");
+        require(blockNumber < block.number, "SHDW::getPriorVotes: not yet determined");
 
         uint32 nCheckpoints = numCheckpoints[account];
         if (nCheckpoints == 0) {
@@ -150,7 +150,7 @@ contract CakeToken is BEP20("PancakeSwap Token", "Cake") {
 
     function _delegate(address delegator, address delegatee) internal {
         address currentDelegate = _delegates[delegator];
-        uint256 delegatorBalance = balanceOf(delegator); // balance of underlying CAKEs (not scaled);
+        uint256 delegatorBalance = balanceOf(delegator); // balance of underlying SHDWs (not scaled);
         _delegates[delegator] = delegatee;
 
         emit DelegateChanged(delegator, currentDelegate, delegatee);
@@ -188,7 +188,7 @@ contract CakeToken is BEP20("PancakeSwap Token", "Cake") {
         uint256 oldVotes,
         uint256 newVotes
     ) internal {
-        uint32 blockNumber = safe32(block.number, "CAKE::_writeCheckpoint: block number exceeds 32 bits");
+        uint32 blockNumber = safe32(block.number, "SHDW::_writeCheckpoint: block number exceeds 32 bits");
 
         if (nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber) {
             checkpoints[delegatee][nCheckpoints - 1].votes = newVotes;

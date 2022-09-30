@@ -3,10 +3,10 @@ pragma solidity 0.6.12;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "./security/ReentrancyGuard.sol";
 
-import "bsc-library/contracts/IBEP20.sol";
-import "bsc-library/contracts/SafeBEP20.sol";
+import "./interface/IBEP20.sol";
+import "./contracts/SafeBEP20.sol";
 
 contract SmartChefInitializable is Ownable, ReentrancyGuard {
     using SafeMath for uint256;
